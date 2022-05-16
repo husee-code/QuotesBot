@@ -11,7 +11,6 @@ from aiogram.utils import executor
 from utils.functions import *
 from handlers.ap_handlers import *
 from handlers.user_handlers import *
-
 bot_key = os.getenv("BOT_TOKEN")
 bot = Bot(bot_key)
 storage = MemoryStorage()
@@ -20,7 +19,7 @@ dp.middleware.setup(LoggingMiddleware())
 
 
 async def scheduler():
-    aioschedule.every().minute.do(checkNewQuoteVK)
+    aioschedule.every().minute.do(checkNewQuoteVK, bot=bot, last_quote=last_quote)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
